@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Web Project</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .carousel-3d {
+      perspective: 1200px;
+    }
+    .carousel-inner {
+      transform-style: preserve-3d;
+      transition: transform 1s ease-in-out;
+      transform: translateZ(-500px) rotateY(0deg);
+    }
+    .carousel-item {
+      position: absolute;
+      width: 320px;
+      height: 200px;
+      backface-visibility: hidden;
+    }
+    @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .page-fade-in {
+    animation: fadeInUp 1s ease-out forwards;
+    opacity: 0;
+  }
+  </style>
+</head>
+<body class="min-h-screen font-sans text-white p-6 space-y-10 page-fade-in"
+  style="background-image: url('https://www.pixelstalk.net/wp-content/uploads/2016/03/Free-dark-background-wallpaper.jpg'); background-size: auto, cover;">
+
+
+  <!-- Header -->
+  <header class="text-center">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-indigo-700 drop-shadow-sm">Welcome to my Project</h1>
+    <p class="text-lg text-indigo-500 mt-2">Image-carsole,Quiz,Joke</p>
+  </header>
+
+  <!-- 3D Carousel -->
+  <section class="w-full max-w-lg mx-auto bg-white/10 backdrop-blur-lg p-6 rounded-2xl shadow-2xl border border-white/20">
+    <h2 class="text-2xl font-bold mb-4 text-center text-blue-500">🖼️ 3D Image Carousel</h2>
+    <div class="carousel-3d w-[320px] h-[200px] relative mx-auto mb-4">
+      <div id="carousel" class="carousel-inner w-full h-full mx-auto relative">
+        <img src="https://toppng.com/uploads/preview/html5-logo-11609363747dunzzmadxo.png" class="carousel-item rounded-xl shadow-lg hover:scale-105 transition-all duration-300" style="transform: rotateY(0deg) translateZ(500px);">
+        <img src="https://tse1.mm.bing.net/th?id=OIP.fBJ2R5Y0m_tQXUxdc0icPQHaKd&pid=Api&P=0&h=180" class="carousel-item rounded-xl shadow-lg hover:scale-105 transition-all duration-300" style="transform: rotateY(72deg) translateZ(500px);">
+        <img src="https://tse2.mm.bing.net/th?id=OIP.btmLuIewxr1xXFZFEKGwxwHaKv&pid=Api&P=0&h=180" class="carousel-item rounded-xl shadow-lg hover:scale-105 transition-all duration-300" style="transform: rotateY(144deg) translateZ(500px);">
+        <img src="https://tse1.mm.bing.net/th?id=OIP.K-4RqDC6zFrpAG31ayDDOgHaHa&pid=Api&P=0&h=180" class="carousel-item rounded-xl shadow-lg hover:scale-105 transition-all duration-300" style="transform: rotateY(216deg) translateZ(500px);">
+        <img src="https://tse3.mm.bing.net/th?id=OIP.X6JUwjin5PT3jbrvUuqkBwHaE8&pid=Api&P=0&h=180" class="carousel-item rounded-xl shadow-lg hover:scale-105 transition-all duration-300" style="transform: rotateY(288deg) translateZ(500px);">
+      </div>
+    </div>
+    <div class="flex justify-center gap-4">
+      <button onclick="rotateCarousel(-1)" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition">⬅️ Prev</button>
+      <button onclick="rotateCarousel(1)" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition">Next ➡️</button>
+    </div>
+  </section>
+
+  <!-- Quiz Section -->
+  <section class="relative w-full max-w-xl mx-auto p-1 rounded-3xl overflow-hidden mt-10 shadow-2xl border border-purple-500/30" style="background-image: url('https://images.unsplash.com/photo-1621609772210-122d09b403f7?auto=format&fit=crop&w=1740&q=80'); background-size: cover; background-position: center;">
+    <div class="bg-black/70 backdrop-blur-md p-6 rounded-2xl text-white shadow-inner shadow-purple-800 space-y-4">
+      <h2 class="text-3xl font-bold text-purple-400 drop-shadow-lg">🧠 3D Quiz Master</h2>
+      
+      <div class="mb-1 text-sm text-gray-300" id="quiz-progress"></div>
+      <div class="w-full bg-purple-200/30 h-2 rounded mb-4">
+        <div id="quiz-bar" class="bg-purple-500 h-2 rounded transition-all duration-500 ease-in-out" style="width: 0%;"></div>
+      </div>
+  
+      <p id="quiz-question" class="mb-4 text-lg font-medium text-white drop-shadow-sm"></p>
+      <div id="quiz-options" class="flex flex-col gap-3 mb-4"></div>
+  
+      <p id="quiz-result" class="text-lg font-semibold transition-all duration-300 mb-2 text-center"></p>
+      <button onclick="nextQuestion()" id="next-btn" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2 px-6 rounded-full shadow-md hover:scale-105 hover:shadow-xl transition hidden">Next ➡️</button>
+      
+      <div class="text-right text-sm text-purple-200" id="quiz-score"></div>
+    </div>
+  </section>
+  
+
+  <!-- Joke API -->
+  <!-- Joke API -->
+<section class="w-full max-w-lg mx-auto">
+    <div class="bg-white/20 backdrop-blur-md p-6 rounded-2xl shadow-xl text-black animate-fade-in-up transition-all duration-700">
+      <h2 class="text-2xl font-bold mb-4 text-green-300 drop-shadow">😂 Generate Jokes and Laugh</h2>
+      <button onclick="getJoke()" id="jokeBtn" class="bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition">Tell me a Joke</button>
+      <div class="mt-4 min-h-[48px] flex items-center justify-center">
+        <p id="joke" class="italic text-center text-white text-lg"></p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Scripts -->
+  <script>
+    // 3D Carousel Logic
+    let angle = 0;
+    const carousel = document.getElementById('carousel');
+
+    function rotateCarousel(direction) {
+      angle += direction * -72;
+      carousel.style.transform = `translateZ(-500px) rotateY(${angle}deg)`;
+    }
+
+    // Quiz Logic
+    const questions = [
+  { question: "Which company developed the Android operating system?", options: ["Apple", "Microsoft", "Google"], correct: "Google" },
+  { question: "What is the chemical symbol for water?", options: ["O2", "H2O", "CO2"], correct: "H2O" },
+  { question: "What does HTTP stand for?", options: ["HyperText Transfer Protocol", "HighText Transmission Protocol", "Hyperlink Transfer Process"], correct: "HyperText Transfer Protocol" },
+  { question: "Who painted the Mona Lisa?", options: ["Vincent Van Gogh", "Leonardo da Vinci", "Pablo Picasso"], correct: "Leonardo da Vinci" },
+  { question: "Which planet has the most moons?", options: ["Earth", "Saturn", "Mars"], correct: "Saturn" }
+];
+
+
+    let shuffledQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function shuffleArray(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function startQuiz() {
+      shuffledQuestions = shuffleArray(questions);
+      currentQuestionIndex = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = shuffledQuestions[currentQuestionIndex];
+      document.getElementById("quiz-question").textContent = q.question;
+      const optionsContainer = document.getElementById("quiz-options");
+      optionsContainer.innerHTML = "";
+
+      document.getElementById("quiz-result").textContent = "";
+      document.getElementById("next-btn").classList.add("hidden");
+
+      document.getElementById("quiz-progress").textContent = `Question ${currentQuestionIndex + 1} of ${shuffledQuestions.length}`;
+      document.getElementById("quiz-bar").style.width = `${((currentQuestionIndex + 1) / shuffledQuestions.length) * 100}%`;
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.className = "bg-purple-600 bg-opacity-80 text-white py-2 px-4 rounded-xl hover:scale-105 hover:bg-purple-700 transition-all duration-300 ease-in-out shadow-lg hover:shadow-2xl backdrop-blur-md";
+        btn.onclick = () => checkAnswer(option);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(answer) {
+      const q = shuffledQuestions[currentQuestionIndex];
+      const result = document.getElementById("quiz-result");
+
+      if (answer === q.correct) {
+        result.textContent = "✅ Correct!";
+        result.className = "text-green-600 font-semibold";
+        score++;
+      } else {
+        result.textContent = `❌ Incorrect! Correct answer: ${q.correct}`;
+        result.className = "text-red-600 font-semibold";
+      }
+
+      Array.from(document.getElementById("quiz-options").children).forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+      });
+
+      document.getElementById("quiz-score").textContent = `Score: ${score} / ${shuffledQuestions.length}`;
+      document.getElementById("next-btn").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < shuffledQuestions.length) {
+        showQuestion();
+      } else {
+        showFinalResult();
+      }
+    }
+
+    function showFinalResult() {
+      document.getElementById("quiz-question").textContent = "🎉 Quiz Completed!";
+      document.getElementById("quiz-options").innerHTML = "";
+      document.getElementById("quiz-result").textContent = `You scored ${score} out of ${shuffledQuestions.length}`;
+      document.getElementById("quiz-result").className = "text-blue-700 font-bold";
+      document.getElementById("next-btn").classList.add("hidden");
+      document.getElementById("quiz-progress").textContent = "✅ Done!";
+      document.getElementById("quiz-bar").style.width = "100%";
+    }
+
+    document.addEventListener("DOMContentLoaded", startQuiz);
+
+    // Joke API
+    async function getJoke() {
+      const jokeText = document.getElementById("joke");
+      const btn = document.getElementById("jokeBtn");
+      jokeText.textContent = "⏳ Loading...";
+      btn.disabled = true;
+      btn.classList.add("opacity-50", "cursor-not-allowed");
+
+      try {
+        const res = await fetch("https://icanhazdadjoke.com/", {
+          headers: { "Accept": "application/json" }
+        });
+        const data = await res.json();
+        jokeText.textContent = data.joke;
+      } catch {
+        jokeText.textContent = "⚠️ Failed to fetch a joke.";
+      }
+
+      btn.disabled = false;
+      btn.classList.remove("opacity-50", "cursor-not-allowed");
+    }
+  </script>
+
+</body>
+</html>
